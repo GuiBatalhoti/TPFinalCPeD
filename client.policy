@@ -1,0 +1,4 @@
+grant codeBase "/home/guilherme/LocalOneDrive/Documentos/Faculdade/2023/Computação Paralela e Distribuída/TPFinalCPeD/server.policy" {
+permission java.net.SocketPermission "localhost:*", "connect,resolve";
+permission java.security.AllPermission;
+};
