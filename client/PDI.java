@@ -7,14 +7,10 @@ import java.io.Serializable;
 
 import javax.imageio.ImageIO;
 
-public class PDI implements Task<>, Serializable{
+public class PDI implements Task<BufferedImage>, Serializable{
 
     private static final long serialVersionUID = 227L;
     private static BufferedImage img;
-
-    public PDI(String imgPath) {
-        abreImg(new File(imgPath));
-    }
 
     public BufferedImage execute() {
         return laplacianoGaussiana(tonsCinza(img));

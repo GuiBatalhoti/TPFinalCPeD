@@ -1,7 +1,7 @@
 =========== SERVER
 
-java -cp /home/<meunome>/computeEngine:/home/<meunome>/computeEngine/classes/compute.jar -Djava.rmi.server.hostname=localhost -Djava.security.policy=server-lin.policy -Djava.rmi.server.codebase=file:/home/<meunome>/computeEngine/classes/compute.jar engine.ComputeEngine localhost 1099
+java -cp "/home/guilherme/LocalOneDrive/Documentos/Faculdade/2023/Computação Paralela e Distribuída/TPFinalCPeD":"/home/guilherme/LocalOneDrive"/Documentos/Faculdade/2023/Computação Paralela e Distribuída/TPFinalCPeD/classes/compute.jar" -Djava.rmi.server.hostname=localhost -Djava.security.policy=server-lin.policy -Djava.rmi.server.codebase=file:/home/<meunome>/computeEngine/classes/compute.jar engine.ComputeEngine localhost 1099
 
 ========== CLIENT
 
-java -cp /home/<meunome>/computeEngine:/home/<meunome>/computeEngine/classes/compute.jar -Djava.rmi.server.codebase=file:/home/<meunome>/computeEngine/classes/ -Djava.security.policy=client-lin.policy client.ComputePi localhost 1099 45
+java -cp "/home/guilherme/LocalOneDrive/Documentos/Faculdade/2023/Computação Paralela e Distribuída/TPFinalCPeD":"/home/guilherme/LocalOneDrive/Documentos/Faculdade/2023/Computação Paralela e Distribuída/TPFinalCPeD/classes/compute.jar" -Djava.rmi.server.codebase=file:/home/<meunome>/computeEngine/classes/ -Djava.security.policy=client-lin.policy client.ComputePi localhost 1099 45
