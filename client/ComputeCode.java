@@ -1,13 +1,10 @@
-package Cliente;
+package client;
 
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-
-public class client {
+public class ComputeCode {
 
     private static final String imgPath = "imagem.png";
 
@@ -16,7 +13,7 @@ public class client {
      */
     public static void main(String[] args) {
         BufferedImage img = abreImg(imgPath);
-        
+
     }
 
     private static BufferedImage abreImg(String path) {
@@ -26,20 +23,17 @@ public class client {
             BufferedImage img = ImageIO.read(arquivo);
             System.out.println("Imagem aberta com sucesso.");
             return img;
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             System.out.println("Erro ao abrir a imagem.");
             return null;
         }
     }
-    
+
     private static void salvarImg(BufferedImage img) {
-        try
-        {
+        try {
             File arquivo = new File("imagem.png");
             ImageIO.write(img, "png", arquivo);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             System.out.println("Erro ao salvar a imagem.");
         }
     }

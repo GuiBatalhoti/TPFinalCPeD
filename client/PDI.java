@@ -1,11 +1,8 @@
 package client;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
+import compute.Task;
 import java.io.Serializable;
 
-import javax.imageio.ImageIO;
 
 public class PDI implements Task<BufferedImage>, Serializable{
 
