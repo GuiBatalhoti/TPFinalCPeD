@@ -27,8 +27,10 @@ public class ComputeCode {
             String name = "Compute";
             Registry registry = LocateRegistry.getRegistry(ip,Integer.parseInt(port));
             Compute comp = (Compute) registry.lookup(name);
-            PDI task = new PDI(img);
-            BufferedImage transformedImg = comp.executeTask(task);
+            byte[] imgBytes = PDI.bufferedImageToByteArray(img);
+            PDI task = new PDI(imgBytes);
+            byte[] transformedImgBytes = comp.executeTask(task);
+            BufferedImage transformedImg = PDI.byteArrayToBufferedImage(transformedImgBytes);
             salvarImg(transformedImg);
         } catch (Exception e) {
             System.err.println("ComputePDI exception:");

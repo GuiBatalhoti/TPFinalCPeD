@@ -15,4 +15,4 @@ java -cp "/home/guilherme/LocalOneDrive/Documentos/Faculdade/2023/CPeD/TPFinalCP
 
 ========== CLIENT
 export CLASSPATH="/home/guilherme/LocalOneDrive/Documentos/Faculdade/2023/CPeD/TPFinalCPeD"
-java -cp "/home/guilherme/LocalOneDrive/Documentos/Faculdade/2023/CPeD/TPFinalCPeD/":"/home/guilherme/LocalOneDrive/Documentos/Faculdade/2023/CPeD/TPFinalCPeD/classes/compute.jar" -Djava.rmi.server.codebase=file:"/home/guilherme/LocalOneDrive/Documentos/Faculdade/2023/CPeD/TPFinalCPeD/classes" -Djava.security.policy=client.policy client.ComputeCode localhost 1099
+java -cp "/home/guilherme/LocalOneDrive/Documentos/Faculdade/2023/CPeD/TPFinalCPeD/":"/home/guilherme/LocalOneDrive/Documentos/Faculdade/2023/CPeD/TPFinalCPeD/classes/compute.jar" -Djava.rmi.server.codebase=file:"/home/guilherme/LocalOneDrive/Documentos/Faculdade/2023/CPeD/TPFinalCPeD/classes" -Djava.security.policy=client.policy client.ComputeCode localhost 1099 "imagem.png"

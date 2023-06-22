@@ -1,56 +1,71 @@
 package client;
 import java.awt.image.BufferedImage;
 import compute.Task;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 
+import javax.imageio.ImageIO;
 
-public class PDI implements Task<BufferedImage>, Serializable{
+
+public class PDI implements Task<byte[]>, Serializable{
 
     private static final long serialVersionUID = 227L;
-    private static BufferedImage img;
+    private byte[] image;
 
-    public PDI(BufferedImage img) {
-        PDI.img = img;
+    public PDI(byte[] image) {
+        this.image = image;
     }
 
-    public BufferedImage execute() {
-        return laplacianoGaussiana(tonsCinza(img));
+    public byte[] execute() {
+        System.out.println("\n\nExecuting PDI...");
+        BufferedImage imgBuff = PDI.byteArrayToBufferedImage(this.image); 
+        byte[] transformedImgBytes = PDI.bufferedImageToByteArray(
+            lapacianGaussian(
+                grayScaleConvertion(imgBuff)
+                )
+            );
+        System.out.println("PDI executed.\n\n");
+        return transformedImgBytes;
     }
     
 
-    public static BufferedImage tonsCinza(BufferedImage img)  {
-        if (img == null) //se nada estiver aberto
+    public static BufferedImage grayScaleConvertion(BufferedImage img)  {
+        if (img == null)
         {
+            System.err.println("Image is null in grayScale!");
             return null;
         }
 
-        //imagem de saída em tons de cinza
-        BufferedImage cinza = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
+        BufferedImage gray = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
 
-        //loop duplo pela imagem
         for (int i = 0; i < img.getWidth(); i++) 
         {
             for (int j = 0; j < img.getHeight(); j++) 
             {
-                int rgb = img.getRGB(i, j); //pegando o valor RGB do pixel
-
-                //manipulação dos bit para pegar o valor de uma cor específica
+                int rgb = img.getRGB(i, j);
                 int blue = 0xff & rgb;
                 int green = 0xff & (rgb >> 8);
                 int red = 0xff & (rgb >> 16);
-
-                //cálculo do valor em tons de cinza
                 int lum = (int) (red * 0.299 + green * 0.587 + blue * 0.114);
-
-                //montagem da imagem de saída em tons de cinza
-                cinza.setRGB(i, j, lum | (lum << 8) | (lum << 16));
+                gray.setRGB(i, j, lum | (lum << 8) | (lum << 16));
             }
         }
-        return cinza;
+
+        System.out.println("Image converted to gray scale!!!");
+        return gray;
     }
 
-    public static BufferedImage laplacianoGaussiana(BufferedImage img) {
-        float[][] mascara = {
+    public static BufferedImage lapacianGaussian(BufferedImage inImage) {
+        if (inImage == null) //se nada estiver aberto
+        {
+            System.err.println("Image is null in lapacianGaussian!");
+            return null;
+        }
+
+        float[][] lapalcianGaussianMask = {
                            {0, 0, -1, 0, 0},
                            {0, -1, -2, -1, 0},
                            {-1, -2, 16, -2, -1},
@@ -59,47 +74,46 @@ public class PDI implements Task<BufferedImage>, Serializable{
                           };
                 
 
-        BufferedImage imgSaida = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
+        BufferedImage outImage = new BufferedImage(inImage.getWidth(), inImage.getHeight(), BufferedImage.TYPE_INT_RGB);
 
-        for (int i = 2; i < imgSaida.getWidth() - 2; i++) 
+        for (int i = 2; i < outImage.getWidth() - 2; i++) 
         {
-            for (int j = 2; j < imgSaida.getHeight() - 2; j++) 
+            for (int j = 2; j < outImage.getHeight() - 2; j++) 
             {
 
-                int soma = 0;
+                int sum = 0;
 
-                for (int k = -2; k < mascara.length - 2; k++) 
+                for (int k = -2; k < lapalcianGaussianMask.length - 2; k++) 
                 {
-                    for (int l = -2; l < mascara[k+2].length - 2; l++) 
+                    for (int l = -2; l < lapalcianGaussianMask[k+2].length - 2; l++) 
                     {
-                        soma += (int) (img.getRGB(i + k, j + l) & 255) * mascara[k + 2][l + 2];
+                        sum += (int) (inImage.getRGB(i + k, j + l) & 255) * lapalcianGaussianMask[k + 2][l + 2];
                     }
                 }
                 
 
-                soma = Math.abs(soma/16);
+                sum = Math.abs(sum/16);
 
-                imgSaida.setRGB(i, j, soma | (soma << 8) | (soma << 16));
+                outImage.setRGB(i, j, sum | (sum << 8) | (sum << 16));
             }
         }
         
-        imgSaida = normalizaImg(imgSaida);
-
-        return imgSaida;
+        System.out.println("Image transformed by lapacianGaussian!!!");
+        outImage = normalizeImg(outImage);
+        System.out.println("Image normalized!!!");
+        return outImage;
     }
 
-    public static BufferedImage normalizaImg(BufferedImage img)
+    public static BufferedImage normalizeImg(BufferedImage inImage)
     {
-        BufferedImage saida = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
+        BufferedImage outImage = new BufferedImage(inImage.getWidth(), inImage.getHeight(), BufferedImage.TYPE_INT_RGB);
 
         int min = 255, max = 0;
-        
-        for (int i = 0; i < img.getWidth(); i++)
+        for (int i = 0; i < inImage.getWidth(); i++)
         {
-            for (int j = 0; j < img.getHeight(); j++)
+            for (int j = 0; j < inImage.getHeight(); j++)
             {
-                int tom = img.getRGB(i, j) & 0xff;
-                
+                int tom = inImage.getRGB(i, j) & 0xff;
                 if (tom > max)
                     max = tom;
                 if (tom < min)
@@ -108,19 +122,48 @@ public class PDI implements Task<BufferedImage>, Serializable{
         }
         
         int aux = max - min;
-        
-        for (int i = 0; i < img.getWidth(); i++)
+        for (int i = 0; i < inImage.getWidth(); i++)
         {
-            for (int j = 0; j < img.getHeight(); j++)
+            for (int j = 0; j < inImage.getHeight(); j++)
             {
-                int tom = img.getRGB(i, j) & 0xff;
+                int tom = inImage.getRGB(i, j) & 0xff;
                 
                 int norm = (int) (255 * (tom - min) / aux );
                 
-                saida.setRGB(i, j, norm | (norm << 8) | (norm << 16));
+                outImage.setRGB(i, j, norm | (norm << 8) | (norm << 16));
             }
         }
         
-        return saida;
+        return outImage;
+    }
+
+    public static byte[] bufferedImageToByteArray(BufferedImage image) {
+        try {
+            System.out.println("Converting image to byte array...");
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(image, "PNG", baos);
+            baos.flush();
+            byte[] byteArray = baos.toByteArray();
+            baos.close();
+            System.out.println("Image converted to byte array!!!");
+            return byteArray;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static BufferedImage byteArrayToBufferedImage(byte[] byteArray) {
+        try {
+            System.out.println("Converting byte array to image...");
+            ByteArrayInputStream bais = new ByteArrayInputStream(byteArray);
+            BufferedImage image = ImageIO.read(bais);
+            bais.close();
+            System.out.println("Byte array converted to image!!!");
+            return image;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
