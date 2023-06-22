@@ -1,5 +1,5 @@
-grant codeBase "file:/home/guilherme/LocalOneDrive/Documentos/Faculdade/2023/Computação Paralela e Distribuída/TPFinalCPeD/" {
-permission java.net.SocketPermission "localhost:*", "connect, resolve";
-permission java.net.SocketPermission "localhost:*", "accept";
-permission java.security.AllPermission;
+grant codeBase "file:/home/guilherme/LocalOneDrive/Documentos/Faculdade/2023/CPeD/TPFinalCPeD" {
+    permission java.net.SocketPermission "localhost:*", "connect, resolve";
+    permission java.net.SocketPermission "localhost:*", "accept";
+    permission java.security.AllPermission;
 };

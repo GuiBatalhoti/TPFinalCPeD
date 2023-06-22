@@ -1,7 +1,18 @@
-=========== SERVER
+=========== Compile
+javac compute/*.java
+jar cvf classes/compute.jar compute/*.class
+javac -cp ./classes/compute.jar engine/ComputeEngine.java
+javac -cp ./classes/compute.jar client/ComputeCode.java client/PDI.java
 
-java -cp "/home/guilherme/LocalOneDrive/Documentos/Faculdade/2023/Computação Paralela e Distribuída/TPFinalCPeD":"/home/guilherme/LocalOneDrive"/Documentos/Faculdade/2023/Computação Paralela e Distribuída/TPFinalCPeD/classes/compute.jar" -Djava.rmi.server.hostname=localhost -Djava.security.policy=server-lin.policy -Djava.rmi.server.codebase=file:/home/guilherme/LocalOneDrive/Documentos/Faculdade/2023/Computação Paralela e Distribuída/TPFinalCPeD/classes/compute.jar engine.ComputeEngine localhost 1099
+
+=========== rmiregistry
+export CLASSPATH="/home/guilherme/LocalOneDrive/Documentos/Faculdade/2023/CPeD/TPFinalCPeD"
+rmiregistry
+
+=========== SERVER
+export CLASSPATH="/home/guilherme/LocalOneDrive/Documentos/Faculdade/2023/CPeD/TPFinalCPeD"
+java -cp "/home/guilherme/LocalOneDrive/Documentos/Faculdade/2023/CPeD/TPFinalCPeD/":"/home/guilherme/LocalOneDrive/Documentos/Faculdade/2023/CPeD/TPFinalCPeD/classes/compute.jar" -Djava.rmi.server.hostname=localhost -Djava.security.policy=server.policy -Djava.rmi.server.codebase=file:"/home/guilherme/LocalOneDrive/Documentos/Faculdade/2023/CPeD/TPFinalCPeD/classes/compute.jar" engine.ComputeEngine localhost 1099
 
 ========== CLIENT
-
-java -cp "/home/guilherme/LocalOneDrive/Documentos/Faculdade/2023/Computação Paralela e Distribuída/TPFinalCPeD":"/home/guilherme/LocalOneDrive/Documentos/Faculdade/2023/Computação Paralela e Distribuída/TPFinalCPeD/classes/compute.jar" -Djava.rmi.server.codebase=file:/home/guilherme/LocalOneDrive/Documentos/Faculdade/2023/Computação Paralela e Distribuída/TPFinalCPeD/classes/ -Djava.security.policy=client-lin.policy client.ComputeCode localhost 1099 45
+export CLASSPATH="/home/guilherme/LocalOneDrive/Documentos/Faculdade/2023/CPeD/TPFinalCPeD"
+java -cp "/home/guilherme/LocalOneDrive/Documentos/Faculdade/2023/CPeD/TPFinalCPeD/":"/home/guilherme/LocalOneDrive/Documentos/Faculdade/2023/CPeD/TPFinalCPeD/classes/compute.jar" -Djava.rmi.server.codebase=file:"/home/guilherme/LocalOneDrive/Documentos/Faculdade/2023/CPeD/TPFinalCPeD/classes" -Djava.security.policy=client.policy client.ComputeCode localhost 1099

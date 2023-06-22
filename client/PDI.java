@@ -9,6 +9,10 @@ public class PDI implements Task<BufferedImage>, Serializable{
     private static final long serialVersionUID = 227L;
     private static BufferedImage img;
 
+    public PDI(BufferedImage img) {
+        PDI.img = img;
+    }
+
     public BufferedImage execute() {
         return laplacianoGaussiana(tonsCinza(img));
     }
