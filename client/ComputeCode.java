@@ -11,15 +11,48 @@ import java.rmi.registry.Registry;
 
 public class ComputeCode {
 
+    private static BufferedImage img;
+
     /*
      * @param args the command line arguments (0: the server ip; 1: the server port, 2:the image path)
      */
     public static void main(String[] args) {
-        BufferedImage img = abreImg(args[2]);
-        executePDI(img, args[0], args[1]);
+
+        while (true) {
+            int option = menuLoop();
+            switch (option) {
+                case 0:
+                    System.out.println("Exiting...");
+                    System.exit(0);
+                    break;
+                case 1:
+                    img = openImage(args[2]);
+                    executeDIP(img, args[0], args[1]);
+                    break;
+                case 2:
+                    executeCryptography(args[2], args[0], args[1]);
+                case 3:
+                    executeCompression(args[2], args[0], args[1]);
+                    break;
+                default:
+                    System.out.println("Invalid option");
+                    break;
+            }
+        }
     }
 
-    private static void executePDI(BufferedImage img, String ip, String port) {
+    private static int menuLoop() {
+        System.out.println("Choose an option:");
+        System.out.println("1 - DIP (Laplacian Gaussian)");
+        System.out.println("2 - Cryptography (Encrypt the image)");
+        System.out.println("3 - Compression (Compress the image)");
+        System.out.println("0 - Sair");
+        System.out.print("Opção: ");
+        int option = Integer.parseInt(System.console().readLine());
+        return option;
+    }
+
+    private static void executeDIP(BufferedImage img, String ip, String port) {
         if (System.getSecurityManager() == null) {
             System.setSecurityManager(new SecurityManager());
         }
@@ -27,36 +60,71 @@ public class ComputeCode {
             String name = "Compute";
             Registry registry = LocateRegistry.getRegistry(ip,Integer.parseInt(port));
             Compute comp = (Compute) registry.lookup(name);
-            byte[] imgBytes = PDI.bufferedImageToByteArray(img);
-            PDI task = new PDI(imgBytes);
+            byte[] imgBytes = DIP.bufferedImageToByteArray(img);
+            DIP task = new DIP(imgBytes);
             byte[] transformedImgBytes = comp.executeTask(task);
-            BufferedImage transformedImg = PDI.byteArrayToBufferedImage(transformedImgBytes);
-            salvarImg(transformedImg);
+            BufferedImage transformedImg = DIP.byteArrayToBufferedImage(transformedImgBytes);
+            saveImage(transformedImg);
         } catch (Exception e) {
-            System.err.println("ComputePDI exception:");
+            System.err.println("ComputeDIP exception:");
             e.printStackTrace();
         }
     }
 
-    private static BufferedImage abreImg(String path) {
-        System.out.println("\n\nAbrindo a imagem...");
+    private static void executeCryptography(String imagePath, String ip, String port) {
+        if (System.getSecurityManager() == null) {
+            System.setSecurityManager(new SecurityManager());
+        }
+        try {
+            String name = "Compute";
+            Registry registry = LocateRegistry.getRegistry(ip,Integer.parseInt(port));
+            Compute comp = (Compute) registry.lookup(name);
+            Cryptography task = new Cryptography(imagePath);
+            String encryptedImagePath = comp.executeTask(task);
+            System.out.println("Image encrypted successfully onto \"" + encryptedImagePath + "\".");
+        } catch (Exception e) {
+            System.err.println("ComputeCryptography exception:");
+            e.printStackTrace();
+        }
+    }
+
+    private static void executeCompression(String imagePath, String ip, String port) {
+        if (System.getSecurityManager() == null) {
+            System.setSecurityManager(new SecurityManager());
+        }
+        try {
+            String name = "Compute";
+            Registry registry = LocateRegistry.getRegistry(ip,Integer.parseInt(port));
+            Compute comp = (Compute) registry.lookup(name);
+            CompressImage task = new CompressImage(imagePath);
+            String compressedImagePath = comp.executeTask(task);
+            System.out.println("Image compressed successfully onto \"" + compressedImagePath + "\".");
+        } catch (Exception e) {
+            System.err.println("ComputeCompression exception:");
+            e.printStackTrace();
+        }
+    }
+
+    private static BufferedImage openImage(String path) {
+        System.out.println("\n\nOpening Image...");
         try {
             File arquivo = new File(path);
             BufferedImage img = ImageIO.read(arquivo);
-            System.out.println("Imagem aberta com sucesso.\n\n");
+            System.out.println("Image opened successfuly.\n\n");
             return img;
         } catch (Exception e) {
-            System.out.println("Erro ao abrir a imagem.\n");
+            System.err.println("Error opening image.\n");
             return null;
         }
     }
 
-    private static void salvarImg(BufferedImage img) {
+    private static void saveImage(BufferedImage img) {
         try {
-            File arquivo = new File("imagem_nova.png");
+            File arquivo = new File("image_borders.png");
             ImageIO.write(img, "png", arquivo);
+            System.out.println("Image saved successfuly into \"image_borders.png\".");
         } catch (Exception e) {
-            System.out.println("Erro ao salvar a imagem.");
+            System.err.println("Error saving image.");
         }
     }
 }

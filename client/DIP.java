@@ -10,19 +10,16 @@ import java.io.Serializable;
 import javax.imageio.ImageIO;
 
 
-public class PDI implements Task<byte[]>, Serializable{
+public class DIP implements Task<byte[]>, Serializable{
 
     private static final long serialVersionUID = 227L;
     private byte[] image;
 
-    public PDI(byte[] image) {
-        this.image = image;
-    }
-
+    @Override
     public byte[] execute() {
         System.out.println("\n\nExecuting PDI...");
-        BufferedImage imgBuff = PDI.byteArrayToBufferedImage(this.image); 
-        byte[] transformedImgBytes = PDI.bufferedImageToByteArray(
+        BufferedImage imgBuff = DIP.byteArrayToBufferedImage(this.image); 
+        byte[] transformedImgBytes = DIP.bufferedImageToByteArray(
             lapacianGaussian(
                 grayScaleConvertion(imgBuff)
                 )
@@ -30,8 +27,11 @@ public class PDI implements Task<byte[]>, Serializable{
         System.out.println("PDI executed.\n\n");
         return transformedImgBytes;
     }
-    
 
+    public DIP(byte[] image) {
+        this.image = image;
+    }
+    
     public static BufferedImage grayScaleConvertion(BufferedImage img)  {
         if (img == null)
         {

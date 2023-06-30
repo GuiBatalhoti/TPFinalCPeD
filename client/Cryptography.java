@@ -1,6 +1,7 @@
 package client;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -14,14 +15,31 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
-public class Cryptography {
+import compute.Task;
+
+public class Cryptography implements Task<String>, Serializable {
     
-    Cryptography(String imagePath, String encryptedImagePath, String key) {
-        encryptImage(imagePath, encryptedImagePath, key);
+    private String imagePath;
+    private String encryptedImagePath;
+    private String key;
+
+    @Override
+    public String execute() {
+        System.out.println("\n\nExecuting Cryptography...");
+        encryptImage(this.imagePath, this.encryptedImagePath, this.key);
+        System.out.println("Cryptography executed.\n\n");
+        return this.encryptedImagePath;
+    }
+
+    public Cryptography(String imagePath) {
+        this.imagePath = imagePath;
+        this.encryptedImagePath = "imagem_encrypted.png";
+        this.key = "0123456789123456";
     }
 
     public static void encryptImage(String imagePath, String encryptedImagePath, String key) {
         try {
+            System.out.println("Encrypting image...");
             // Lê a imagem em um array de bytes
             byte[] imageBytes = Files.readAllBytes(Paths.get(imagePath));
 
