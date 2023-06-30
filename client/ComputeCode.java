@@ -35,7 +35,7 @@ public class ComputeCode {
                     executeCryptography(args[3], args[0], args[1]);
                     break;
                 case 3:
-                    executeCompression(args[2], args[0], args[1]);
+                    executeDataAnalysis(args[2], args[0], args[1]);
                     break;
                 default:
                     System.out.println("Invalid option");
@@ -118,7 +118,7 @@ public class ComputeCode {
         }
     }
 
-    private static void executeCompression(String imagePath, String ip, String port) {
+    private static void executeDataAnalysis(String imagePath, String ip, String port) {
         //execeute cryptography in text file
 
         //set security manager
@@ -164,7 +164,7 @@ public class ComputeCode {
     private static void saveText(String text) {
         try {
             //save text file
-            File arquivo = new File("text_encrypted.txt");
+            File arquivo = new File("outputs/text_encrypted.txt");
             //write text file
             PrintWriter writer = new PrintWriter(arquivo);
             writer.println(text);
@@ -192,7 +192,7 @@ public class ComputeCode {
     private static void saveImage(BufferedImage img) {
         try {
             //save image
-            File arquivo = new File("image_borders.png");
+            File arquivo = new File("outputs/image_borders.png");
             //write image
             ImageIO.write(img, "png", arquivo);
         } catch (Exception e) {
