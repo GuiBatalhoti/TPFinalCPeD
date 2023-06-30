@@ -1,13 +1,8 @@
 package client;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.security.InvalidKeyException;
-import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 
 import javax.crypto.BadPaddingException;
@@ -56,7 +51,7 @@ public class Cryptography implements Task<String>, Serializable {
         }
         return null;
     }
-    
+
     public static SecretKey generateSecretKey(String key) throws NoSuchAlgorithmException {
         // Generate a 128-bit AES secret key from the provided key bytes
         byte[] keyBytes = key.getBytes();
