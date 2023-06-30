@@ -11,8 +11,8 @@ rmiregistry
 
 =========== SERVER
 export CLASSPATH="$(pwd)"
-java -cp "/home/guilherme/LocalOneDrive/Documentos/Faculdade/2023/CPeD/TPFinalCPeD/":"/home/guilherme/LocalOneDrive/Documentos/Faculdade/2023/CPeD/TPFinalCPeD/classes/compute.jar" -Djava.rmi.server.hostname=localhost -Djava.security.policy=server.policy -Djava.rmi.server.codebase=file:"/home/guilherme/LocalOneDrive/Documentos/Faculdade/2023/CPeD/TPFinalCPeD/classes/compute.jar" engine.ComputeEngine localhost 1099
+java -cp "$(pwd)":"$(pwd)/classes/compute.jar" -Djava.rmi.server.hostname=localhost -Djava.security.policy=server.policy -Djava.rmi.server.codebase=file:"$(pwd)/classes/compute.jar" engine.ComputeEngine localhost 1099
 
 ========== CLIENT
 export CLASSPATH="$(pwd)"
-java -cp "/home/guilherme/LocalOneDrive/Documentos/Faculdade/2023/CPeD/TPFinalCPeD/":"/home/guilherme/LocalOneDrive/Documentos/Faculdade/2023/CPeD/TPFinalCPeD/classes/compute.jar" -Djava.rmi.server.codebase=file:"/home/guilherme/LocalOneDrive/Documentos/Faculdade/2023/CPeD/TPFinalCPeD/classes" -Djava.security.policy=client.policy client.ComputeCode localhost 1099 "image.png"
+java -cp "$(pwd)":"$(pwd)/classes/compute.jar" -Djava.rmi.server.codebase=file:"$(pwd)/classes" -Djava.security.policy=client.policy client.ComputeCode localhost 1099 "image.png"
