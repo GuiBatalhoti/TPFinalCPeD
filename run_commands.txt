@@ -15,4 +15,4 @@ java -cp "$(pwd)":"$(pwd)/classes/compute.jar" -Djava.rmi.server.hostname=localh
 
 ========== CLIENT
 export CLASSPATH="$(pwd)"
-java -cp "$(pwd)":"$(pwd)/classes/compute.jar" -Djava.rmi.server.codebase=file:"$(pwd)/classes" -Djava.security.policy=client.policy client.ComputeCode localhost 1099 "image.png"
+java -cp "$(pwd)":"$(pwd)/classes/compute.jar" -Djava.rmi.server.codebase=file:"$(pwd)/classes" -Djava.security.policy=client.policy client.ComputeCode localhost 1099 "image.png" "text.txt"
