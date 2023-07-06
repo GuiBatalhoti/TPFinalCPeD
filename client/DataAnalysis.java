@@ -30,15 +30,44 @@ public class DataAnalysis implements Task<JFreeChart>, Serializable{
     }
 
     private static JFreeChart createLineChart(DefaultCategoryDataset dataset) {
+
+        //calculate mean year consumption
+        double[] mean = new double[dataset.getColumnCount()];
+        for (int i = 0; i < dataset.getColumnCount(); i++) {
+            double sum = 0;
+            for (int j = 0; j < dataset.getRowCount(); j++) {
+                sum += dataset.getValue(j, i).doubleValue();
+            }
+            mean[i] = sum / dataset.getRowCount();
+        }
+
+        //calculate standard deviation
+        double[] standardDeviation = new double[dataset.getColumnCount()];
+        for (int i = 0; i < dataset.getColumnCount(); i++) {
+            double sum = 0;
+            for (int j = 0; j < dataset.getRowCount(); j++) {
+                sum += Math.pow(dataset.getValue(j, i).doubleValue() - mean[i], 2);
+            }
+            standardDeviation[i] = Math.sqrt(sum / dataset.getRowCount());
+        }
+
+        //add mean and standard deviation to dataset
+        for (int i = 0; i < dataset.getColumnCount(); i++) {
+            int year = 1990 + i;
+            dataset.addValue(mean[i], "Mean", String.valueOf(year));
+            dataset.addValue(standardDeviation[i], "Standard Deviation", String.valueOf(year));
+        }
+
+        //create the chart
         JFreeChart chart = ChartFactory.createLineChart(
-                "Coffee Consumption Latin America",
-                "Year",
-                "Total Domestic Consumption",
-                dataset,
-                PlotOrientation.VERTICAL,
-                true,
-                true,
-                false
+                "Consumption Mean and Standard Deviation", // chart title
+                "Year", // domain axis label
+                "Consumption", // range axis label
+                dataset, // data
+                PlotOrientation.VERTICAL, // orientation
+                true, // include legend
+                true, // tooltips
+                false // urls
         );
         
         return chart;

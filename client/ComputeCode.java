@@ -258,7 +258,7 @@ public class ComputeCode {
             // frame.pack();
             // frame.setVisible(true);
 
-            BufferedImage chartImage = chart.createBufferedImage(800, 600);
+            BufferedImage chartImage = chart.createBufferedImage(1600, 1200);
             //save image
             File arquivo2 = new File("outputs/chart.png");
             //write image
