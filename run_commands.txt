@@ -1,8 +1,8 @@
 =========== Compile
 javac compute/*.java
 jar cvf classes/compute.jar compute/*.class
-javac -cp ./classes/compute.jar engine/ComputeEngine.java
-javac -cp ./classes/compute.jar client/ComputeCode.java client/DIP.java client/Cryptography.java client/CompressImage.java
+javac -cp ./classes/compute.jar:./lib/jcommon-1.0.23.jar:./lib/jfreechart-1.5.4.jar engine/ComputeEngine.java
+javac -cp ./classes/compute.jar:./lib/jcommon-1.0.23.jar:./lib/jfreechart-1.5.4.jar client/ComputeCode.java client/DIP.java client/Cryptography.java client/DataAnalysis.java
 
 
 =========== rmiregistry
@@ -11,8 +11,8 @@ rmiregistry
 
 =========== SERVER
 export CLASSPATH="$(pwd)"
-java -cp "$(pwd)":"$(pwd)/classes/compute.jar" -Djava.rmi.server.hostname=localhost -Djava.security.policy=server.policy -Djava.rmi.server.codebase=file:"$(pwd)/classes/compute.jar" engine.ComputeEngine localhost 1099
+java -cp "$(pwd)":"$(pwd)/classes/compute.jar":"$(pwd)/lib/jcommon-1.0.23.jar":"$(pwd)/lib/jfreechart-1.5.4.jar" -Djava.rmi.server.hostname=localhost -Djava.security.policy=server.policy -Djava.rmi.server.codebase=file:"$(pwd)/classes/compute.jar" engine.ComputeEngine localhost 1099
 
 ========== CLIENT
 export CLASSPATH="$(pwd)"
-java -cp "$(pwd)":"$(pwd)/classes/compute.jar" -Djava.rmi.server.codebase=file:"$(pwd)/classes" -Djava.security.policy=client.policy client.ComputeCode localhost 1099 "image.png" "text.txt"
+java -cp "$(pwd)":"$(pwd)/classes/compute.jar":"$(pwd)/lib/jcommon-1.0.23.jar":"$(pwd)/lib/jfreechart-1.5.4.jar" -Djava.rmi.server.codebase=file:"$(pwd)/classes" -Djava.security.policy=client.policy client.ComputeCode localhost 1099 "inputs/image.png" "inputs/text.txt" "inputs/Coffee_domestic_consumption.csv"
