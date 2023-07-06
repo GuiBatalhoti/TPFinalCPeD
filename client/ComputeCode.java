@@ -2,9 +2,7 @@ package client;
 
 import javax.imageio.ImageIO;
 
-import org.jfree.chart.ChartFrame;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.ChartUtils;
+// import org.jfree.chart.ChartFrame;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.category.DefaultCategoryDataset;
 

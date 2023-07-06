@@ -1,11 +1,9 @@
 package client;
 
-import java.awt.BasicStroke;
 import java.io.Serializable;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import compute.Task;
