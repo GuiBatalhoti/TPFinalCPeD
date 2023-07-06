@@ -147,7 +147,7 @@ public class ComputeCode {
             JFreeChart chart = computeEng.executeTask(task);
             //save chart
             saveChart(chart);
-            System.out.println("Chart saved successfuly into \"chart.txt\".");
+            System.out.println("Chart saved successfuly into \"chart.png\".");
             System.out.println("\n\n");
         } catch (Exception e) {
             System.err.println("ComputeDataAnalisys exception:");

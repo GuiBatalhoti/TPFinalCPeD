@@ -1,9 +1,12 @@
 package client;
 
+import java.awt.BasicStroke;
 import java.io.Serializable;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import compute.Task;
@@ -69,6 +72,17 @@ public class DataAnalysis implements Task<JFreeChart>, Serializable{
                 true, // tooltips
                 false // urls
         );
+
+        CategoryPlot plot = chart.getCategoryPlot();
+
+        // Get the line renderer
+        LineAndShapeRenderer renderer = (LineAndShapeRenderer) plot.getRenderer();
+
+        // Set the line width
+        float lineWidth = 2.5f; // Adjust the value as needed
+        for (int i = 0; i < dataset.getColumnCount(); i++) {
+            renderer.setSeriesStroke(i, new BasicStroke(lineWidth));
+        }
         
         return chart;
     }
